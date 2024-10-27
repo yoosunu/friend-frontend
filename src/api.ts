@@ -1,7 +1,8 @@
 import Cookie from "js-cookie";
 import { QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios";
-import { IChatPost } from "./components/types";
+import { IChatPost, IEveryday, IPlan, ITDs, ITks } from "./components/types";
+import { ITkDelete } from "./components/routes/ThanksDatesDetail";
 
 const instance = axios.create({
   baseURL: "http://127.0.0.1:8000/api/v1/",
@@ -180,13 +181,59 @@ export const postChatDetail = (data: IChatPostVars) =>
     })
     .then((response) => response.data);
 
-// thanks
+// thanksDates
 export const getTDs = () =>
   instance.get("thanks/").then((response) => response.data);
 
 export const getTD = ({ queryKey }: QueryFunctionContext) => {
   const [_, tdId] = queryKey;
   instance.get(`thanks/${tdId}`).then((response) => response.data);
+};
+
+// thanksDates-post
+export const postTD = async (data: ITDs) => {
+  const response = await instance.post(`thanks/`, data, {
+    headers: {
+      "X-CSRFToken": Cookie.get("csrftoken") || "",
+    },
+  });
+  return response.data;
+};
+
+// thanksDates-delete
+export const deleteTD = async (data: ITDs) => {
+  const response = await instance.delete(`thanks/${data.id}`, {
+    headers: {
+      "X-CSRFToken": Cookie.get("csrftoken") || "",
+    },
+  });
+  return response.data;
+};
+
+//tks
+export const getTks = async ({ queryKey }: QueryFunctionContext) => {
+  const [_, tdId] = queryKey;
+  const response = await instance.get(`thanks/${tdId}/tks`);
+  return response.data;
+};
+
+//tks-post
+export const postTk = async (data: ITks) => {
+  const response = await instance.post(`thanks/${data.id}/tks`, data, {
+    headers: {
+      "X-CSRFToken": Cookie.get("csrftoken") || "",
+    },
+  });
+  return response.data;
+};
+// tk-delete
+export const deleteTk = async (data: ITkDelete) => {
+  const response = await instance.delete(`thanks/${data.id}/tks/${data.tkId}`, {
+    headers: {
+      "X-CSRFToken": Cookie.get("csrftoken") || "",
+    },
+  });
+  return response.data;
 };
 
 // todos
@@ -208,6 +255,110 @@ export const getPlans = ({ queryKey }: QueryFunctionContext) => {
   instance.get(`todos/${todoId}/plans`).then((response) => response.data);
 };
 
+// todos-post
+export interface IPostTodoVar {
+  name: string;
+  everydays: IEveryday[];
+  plans: IPlan[];
+}
+
+export const postTodo = async (data: IPostTodoVar) => {
+  const response = await instance.post(`todos/`, data, {
+    headers: {
+      "X-CSRFToken": Cookie.get("csrftoken") || "",
+    },
+  });
+  return response.data;
+};
+
+// todos-delete
+
+export interface IDeleteTodoVar {
+  id: string;
+}
+
+export const deleteTodo = async (data: IDeleteTodoVar) => {
+  const response = await instance.delete(`todos/${data.id}`, {
+    headers: {
+      "X-CSRFToken": Cookie.get("csrftoken") || "",
+    },
+  });
+  return response.data;
+};
+
+// todo-everyday
+export const postEveryday = async (data: IEveryday) => {
+  const response = await instance.post(`todos/${data.id}/everydays`, data, {
+    headers: {
+      "X-CSRFToken": Cookie.get("csrftoken") || "",
+    },
+  });
+  return response.data;
+};
+
+export const putEveryday = async (data: IEveryday) => {
+  const response = await instance.put(
+    `todos/${data.id}/everydays/${data.everydayId}`,
+    data,
+    {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    }
+  );
+  return response.data;
+};
+
+export const deleteEveryday = async (data: IEveryday) => {
+  const response = await instance.delete(
+    `todos/${data.id}/everydays/${data.everydayId}`,
+    {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    }
+  );
+  return response.data;
+};
+
+// todo-plan
+export interface IPostPlanError {
+  detail: string;
+}
+
+export const postPlan = async (data: IPlan) => {
+  const response = await instance.post(`todos/${data.id}/plans`, data, {
+    headers: {
+      "X-CSRFToken": Cookie.get("csrftoken") || "",
+    },
+  });
+  return response.data;
+};
+
+export const putPlan = async (data: IPlan) => {
+  const response = await instance.put(
+    `todos/${data.id}/plans/${data.planId}`,
+    data,
+    {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    }
+  );
+  return response.data;
+};
+
+export const deletePlan = async (data: IPlan) => {
+  const response = await instance.delete(
+    `todos/${data.id}/plans/${data.planId}`,
+    {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    }
+  );
+  return response.data;
+};
 // weather
 export const getWeather = async () => {
   const city = "Jeonju";

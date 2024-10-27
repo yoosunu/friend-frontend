@@ -14,6 +14,7 @@ import UploadItem from "./components/routes/UploadItem";
 import PutItem from "./components/routes/PutItem";
 import UploadPhoto from "./components/routes/UploadPhoto";
 import ChatDetail from "./components/routes/ChatDetail";
+import ThanksDatesDetail from "./components/routes/ThanksDatesDetail";
 
 const router = createBrowserRouter([
   {
@@ -58,11 +59,10 @@ const router = createBrowserRouter([
       {
         path: "thanks",
         element: <ThanksDates />,
-        children: [
-          {
-            path: ":thankId",
-          },
-        ],
+      },
+      {
+        path: "thanks/:tdId/tks",
+        element: <ThanksDatesDetail />,
       },
       {
         path: "todos",

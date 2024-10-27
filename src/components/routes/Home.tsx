@@ -1,11 +1,9 @@
-import { Grid, useToast } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
 import Item from "../Item";
 import ItemSkeleton from "../skeleton/ItemSkeleton";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { addWish, getItems } from "../../api";
+import { useQuery } from "@tanstack/react-query";
+import { getItems } from "../../api";
 import { IItemList } from "../types";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
 
 export default function Home() {
   const { isLoading, data } = useQuery<IItemList[]>({

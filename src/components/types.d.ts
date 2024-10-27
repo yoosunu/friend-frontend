@@ -134,18 +134,28 @@ export interface ITDs {
   diary: string;
 }
 
+// tks
+export interface ITks {
+  id: string;
+  thanksDate: ITDs;
+  payload: string;
+}
+
 // todos
 
 export interface IEveryday {
   id: string;
+  everydayId: string;
   name: string;
   time: string;
   done: boolean;
 }
 
 export interface IPlan {
+  id: string;
+  planId: string;
   name: string;
-  time: string;
+  time: Date;
   description: string;
   done: boolean;
 }
