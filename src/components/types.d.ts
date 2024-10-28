@@ -27,7 +27,7 @@ export interface IItemList {
   id: string;
   rating: number;
   is_owner: boolean;
-  is_liked: boolean;
+  is_wished: boolean;
   title: string;
   description: string;
   file: null;
@@ -56,7 +56,7 @@ export interface IItemDetail extends IItemList {
   description: string;
   imageUrl: string;
   is_owner: boolean;
-  is_liked: boolean;
+  is_wished: boolean;
   category: ICategory;
   user: IItemUser;
   tags: IItemTagsTag[];
@@ -198,4 +198,10 @@ export interface IWeathers {
   main: IMain;
   rain: IRain;
   weather: IWeather[];
+}
+
+export interface IWishlist {
+  pk: string;
+  name: string;
+  items: IItemList[];
 }

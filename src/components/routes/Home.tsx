@@ -55,7 +55,7 @@ export default function Home() {
           tips_highlight={item.tips_highlight}
           rules_payload={item.rules_payload}
           rules_highlight={item.rules_highlight}
-          is_liked={item.is_liked}
+          is_wished={item.is_wished}
           // file={item.file}
         />
       ))}

@@ -137,6 +137,9 @@ export default function HomeHeader() {
                 <Link to={"/users/me"}>
                   <MenuItem>profile</MenuItem>
                 </Link>
+                <Link to={"/wishlist"}>
+                  <MenuItem>wishlist</MenuItem>
+                </Link>
                 <MenuItem onClick={onLogOut}>Log out</MenuItem>
               </MenuList>
             </Menu>

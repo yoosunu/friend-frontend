@@ -648,19 +648,33 @@ export default function Todo({ id, name, everydays, plans }: ITodoProps) {
                           ? new Date(activePlan.time).toLocaleDateString()
                           : "unlimited"}
                       </Text>
+                      <Text as={"b"}>Description</Text>
+                      <Text mb={4}>{activePlan?.description}</Text>
                     </VStack>
                     <VStack mb={5} alignItems={"flex-start"}>
                       <Box mb={4} color={"green.400"} w={"100%"}>
                         <Text as={"b"}>Change Part</Text>
                       </Box>
                       <Text as={"b"}>Time</Text>
-                      <FormControl>
+                      <FormControl mb={4}>
                         <Input
                           type="date"
-                          {...registerPlanPut("time", { required: false })}
+                          {...registerPlanPut("time", { required: true })}
                           placeholder="wanna change time?"
                           size={"xs"}
                           w={"70%"}
+                        />
+                      </FormControl>
+                      <Text as={"b"}>Description</Text>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          size={"xs"}
+                          w={"70%"}
+                          {...registerPlanPut("description", {
+                            required: true,
+                          })}
+                          placeholder="Detail of plan."
                         />
                       </FormControl>
                     </VStack>
@@ -673,7 +687,7 @@ export default function Todo({ id, name, everydays, plans }: ITodoProps) {
                       <FormControl>
                         <Input
                           placeholder="Wanna change name?"
-                          {...registerPlanPut("name", { required: false })}
+                          {...registerPlanPut("name", { required: true })}
                           size={"xs"}
                           width={"70%"}
                         />

@@ -11,7 +11,7 @@ import {
   IconButton,
   chakra,
 } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   FaCameraRetro,
   FaHeart,
@@ -20,12 +20,7 @@ import {
   FaStar,
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  addWish,
-  IToggleLikeError,
-  IToggleLikeSuccess,
-  IToggleLikeVar,
-} from "../api";
+import { addWish, IAddWishVars } from "../api";
 import { useEffect, useState } from "react";
 
 interface IItemProps {
@@ -36,7 +31,7 @@ interface IItemProps {
   language: string;
   id: string;
   is_owner: boolean;
-  is_liked: boolean;
+  is_wished: boolean;
   tips_payload: string;
   tips_highlight: string;
   rules_payload: string;
@@ -51,34 +46,30 @@ export default function Item({
   language,
   id,
   is_owner,
-  is_liked,
+  is_wished,
 }: IItemProps) {
-  const currentValue = is_liked;
   const gray = useColorModeValue("gray.600", "gray.300");
-  const [liked, setLiked] = useState(is_liked);
   const toast = useToast();
-  const mutation = useMutation<
-    IToggleLikeSuccess,
-    IToggleLikeError,
-    IToggleLikeVar
-  >(addWish, {
+  const [wished, setWished] = useState(is_wished);
+  const queryCLient = useQueryClient();
+  const mutation = useMutation<any, any, IAddWishVars>(addWish, {
     onMutate: () => {
-      setLiked((prev) => !prev);
+      setWished((prev) => !prev);
     },
     onSuccess: (data) => {
       toast({
         status: "success",
-        title: "Liked!",
-        description: `added in wish ${data.title}`,
+        title: "Ok!",
+        description: `wishlist changed.`,
       });
-      setLiked(data.is_liked);
+      setWished(wished);
     },
     onError: (error) => {
-      setLiked((prev) => !prev);
+      setWished((prev) => !prev);
       toast({
         status: "error",
         title: "Failed",
-        // description: `${error.error}`,
+        description: `${error.error}`,
       });
     },
   });
@@ -95,12 +86,8 @@ export default function Item({
   };
   const onHeartClick = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    mutation.mutate({
-      itemId: id,
-      is_liked: !currentValue,
-      currentValue: liked,
-    });
-    // setLiked((prev) => !prev);
+    mutation.mutate({ itemId: id });
+    queryCLient.invalidateQueries(["items"]);
   };
   return (
     <Link to={`/items/${id}`}>
@@ -125,7 +112,7 @@ export default function Item({
           <IconButton
             aria-label="Like"
             icon={
-              liked === true ? (
+              wished === true ? (
                 <HeartIcon size={"25px"} color={"red.500"} />
               ) : (
                 <RegHeartIcon size={"25px"} color={"gray.300"} />

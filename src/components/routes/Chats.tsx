@@ -42,8 +42,6 @@ import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import useUser from "../../lib/useUser";
-import { useEffect } from "react";
-import React from "react";
 
 interface IUser {
   id: string;

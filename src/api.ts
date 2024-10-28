@@ -441,34 +441,27 @@ export const getTags = () =>
 export const getCategories = () =>
   instance.get("categories").then((response) => response.data);
 
-export interface IToggleLikeVar {
+export interface IAddWishVars {
   itemId: string;
-  is_liked: boolean;
-  currentValue: boolean;
 }
 
-export interface IToggleLikeSuccess {
-  title: string;
-  is_liked: boolean;
-}
+// wishlist
 
-export interface IToggleLikeError {
-  error: string;
-}
-
-export const addWish = async ({ itemId, currentValue }: IToggleLikeVar) => {
+export const getWishlist = async () => {
+  const response = await instance.get(`wishlists/`);
+  return response.data;
+};
+export const addWish = async (data: IAddWishVars) => {
   const response = await instance.put(
-    `items/${itemId}`,
-    {
-      is_liked: !currentValue,
-    },
+    `wishlists/4/items/${data.itemId}`,
+    data,
     {
       headers: {
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },
     }
   );
-  return response.data;
+  return response.status;
 };
 
 // items - put

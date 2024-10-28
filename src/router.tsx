@@ -15,6 +15,7 @@ import PutItem from "./components/routes/PutItem";
 import UploadPhoto from "./components/routes/UploadPhoto";
 import ChatDetail from "./components/routes/ChatDetail";
 import ThanksDatesDetail from "./components/routes/ThanksDatesDetail";
+import Wishlist from "./components/routes/Wishlist";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +94,10 @@ const router = createBrowserRouter([
             element: <KakaoConfirm />,
           },
         ],
+      },
+      {
+        path: "wishlist",
+        element: <Wishlist />,
       },
     ],
   },
