@@ -205,3 +205,14 @@ export interface IWishlist {
   name: string;
   items: IItemList[];
 }
+
+export interface INotifications {
+  id: string;
+  created_at: string;
+  code: number;
+  tag: string;
+  title: string;
+  link: string;
+  writer: string;
+  etc: string;
+}

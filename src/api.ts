@@ -1,7 +1,7 @@
 import Cookie from "js-cookie";
 import { QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios";
-import { IChatPost, IEveryday, IPlan, ITDs, ITks } from "./components/types";
+import { IEveryday, IPlan, ITDs, ITks } from "./components/types";
 import { ITkDelete } from "./components/routes/ThanksDatesDetail";
 
 const instance = axios.create({
@@ -588,5 +588,15 @@ export const postPhotos = async ({
       },
     }
   );
+  return response.data;
+};
+
+// notifications
+export const getNotifications = async () => {
+  const response = await instance.get(`notifications/`, {
+    headers: {
+      "X-CSRFToken": Cookie.get("csrftoken") || "",
+    },
+  });
   return response.data;
 };

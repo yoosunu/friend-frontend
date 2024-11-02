@@ -130,6 +130,11 @@ export default function HomeHeader() {
               </MenuButton>
               <MenuList>
                 {user?.is_host === true ? (
+                  <Link to={"/notifications"}>
+                    <MenuItem>Notifications</MenuItem>
+                  </Link>
+                ) : null}
+                {user?.is_host === true ? (
                   <Link to={"/items/upload"}>
                     <MenuItem>Upload Item</MenuItem>
                   </Link>

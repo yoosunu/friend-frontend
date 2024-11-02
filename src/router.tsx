@@ -16,6 +16,7 @@ import UploadPhoto from "./components/routes/UploadPhoto";
 import ChatDetail from "./components/routes/ChatDetail";
 import ThanksDatesDetail from "./components/routes/ThanksDatesDetail";
 import Wishlist from "./components/routes/Wishlist";
+import Notifications from "./components/routes/Notifications";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Home />,
+      },
+      {
+        path: "notifications",
+        element: <Notifications />,
       },
       {
         path: "items",
