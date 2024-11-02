@@ -5,7 +5,10 @@ import { IEveryday, IPlan, ITDs, ITks } from "./components/types";
 import { ITkDelete } from "./components/routes/ThanksDatesDetail";
 
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/v1/",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? "http://127.0.0.1:8000/api/v1/"
+      : "https://apot-xif6.onrender.com/api/v1/",
   withCredentials: true,
 });
 
