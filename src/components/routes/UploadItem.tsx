@@ -8,7 +8,6 @@ import {
   FormLabel,
   Grid,
   Heading,
-  HStack,
   Input,
   Select,
   Text,
@@ -46,8 +45,8 @@ export default function UploadItem() {
   const toast = useToast();
   const navigate = useNavigate();
   const mutation = useMutation<IItemPostSuccess, IItemPostError, IItemPostVars>(
-    postItem,
     {
+      mutationFn: postItem,
       onMutate: () => {},
       onSuccess: (data) => {
         toast({

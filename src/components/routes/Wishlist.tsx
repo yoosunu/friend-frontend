@@ -13,7 +13,10 @@ import { IWishlist } from "../types";
 import { FaStar } from "react-icons/fa";
 
 export default function Wishlist() {
-  const { isLoading, data } = useQuery<IWishlist[]>(["wishlist"], getWishlist);
+  const { isLoading, data } = useQuery<IWishlist[]>({
+    queryKey: ["wishlist"],
+    queryFn: getWishlist,
+  });
   return (
     <Box
       display={"flex"}

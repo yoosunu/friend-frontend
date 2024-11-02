@@ -13,30 +13,25 @@ import {
 import Protectedpage from "../ProtectedPage";
 import HostOnlyPage from "../HostOnlyPage";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  getItem,
-  IPhotoUploadError,
-  IPhotoUploadSuccess,
-  IPhotoUploadVars,
-  postPhotos,
-} from "../../api";
+import { getItem, IPhotoUploadVars, postPhotos } from "../../api";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { IItemDetail } from "../types";
 
 export default function UploadPhoto() {
   const { itemId } = useParams();
-  const { isLoading, data: itemData } = useQuery<IItemDetail>(
-    ["item", itemId],
-    getItem
-  );
+  const { isLoading, data: itemData } = useQuery<IItemDetail>({
+    queryKey: ["item", itemId],
+    queryFn: getItem,
+  });
   const uploadURL = `http://127.0.0.1:8000/api/v1/items/${itemId}/photos`;
   const { register, handleSubmit } = useForm<IPhotoUploadVars>();
   const toast = useToast();
   const navigate = useNavigate();
-  const mutation = useMutation(postPhotos, {
+  const mutation = useMutation({
+    mutationFn: postPhotos,
     onMutate: () => {},
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         status: "success",
         title: "Succeed",
@@ -44,7 +39,7 @@ export default function UploadPhoto() {
       });
       navigate(`/items/${itemId}`);
     },
-    onError: (error) => {
+    onError: () => {
       toast({
         status: "error",
         title: `Failed`,

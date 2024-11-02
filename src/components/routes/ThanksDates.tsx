@@ -39,14 +39,15 @@ export default function ThanksDates() {
   const { register, handleSubmit } = useForm<ITDs>();
 
   // mutation section
-  const mutationThanksDatePost = useMutation<any, any, ITDs>(postTD, {
-    onSuccess: (data) => {
+  const mutationThanksDatePost = useMutation<any, any, ITDs>({
+    mutationFn: postTD,
+    onSuccess: () => {
       toast({
         status: "success",
         title: "succeed",
         description: "ThanksDate posted",
       });
-      queryClient.invalidateQueries(["thanksDates"]);
+      queryClient.invalidateQueries({ queryKey: ["thanksDates"] });
       onClose();
     },
     onError: () => {

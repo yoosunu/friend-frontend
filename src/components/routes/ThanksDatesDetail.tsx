@@ -25,7 +25,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ITDs, ITks } from "../types";
 import { deleteTk, getTDs, getTks, postTk } from "../../api";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FaEllipsisV, FaPlus } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -66,7 +66,10 @@ export default function ThanksDatesDetail() {
   });
 
   const { tdId } = useParams();
-  const { isLoading, data } = useQuery<ITks[]>([`tks`, tdId], getTks);
+  const { isLoading, data } = useQuery<ITks[]>({
+    queryKey: [`tks`, tdId],
+    queryFn: getTks,
+  });
   if (!isLoading) {
     tkId = data!.map((tk) => tk.thanksDate.id);
     tkPreview = data!.map((tk) => tk.thanksDate.preview);
@@ -85,9 +88,10 @@ export default function ThanksDatesDetail() {
     defaultTk = data!.find((t) => t.payload === "Always Love U.");
   }
 
-  const mutationPost = useMutation<any, any, ITks>(postTk, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(["tks"]);
+  const mutationPost = useMutation<any, any, ITks>({
+    mutationFn: postTk,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tks"] });
       onClosePost();
     },
     onError: () => {
@@ -98,14 +102,15 @@ export default function ThanksDatesDetail() {
       });
     },
   });
-  const mutationDelete = useMutation<any, any, ITkDelete>(deleteTk, {
-    onSuccess: (data) => {
+  const mutationDelete = useMutation<any, any, ITkDelete>({
+    mutationFn: deleteTk,
+    onSuccess: () => {
       toast({
         status: "success",
         title: "Succeed",
         description: "Thank added.",
       });
-      queryClient.invalidateQueries(["tks"]);
+      queryClient.invalidateQueries({ queryKey: ["tks"] });
       window.location.reload();
     },
     onError: () => {

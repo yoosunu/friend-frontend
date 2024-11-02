@@ -74,49 +74,45 @@ export default function Chats() {
     queryKey: ["chatRooms"],
     queryFn: getChats,
   });
-  const mutation = useMutation<IPostChatRoomSuccess, any, IPostChatRoomVars>(
-    postChatRoom,
-    {
-      onMutate: () => {},
-      onSuccess: (data) => {
-        navigate(`@${data.name}`);
-      },
-      onError: () => {
-        toast({
-          status: "error",
-          title: "Failed",
-          description: `something wrong`,
-        });
-      },
-    }
-  );
+  const mutation = useMutation<IPostChatRoomSuccess, any, IPostChatRoomVars>({
+    mutationFn: postChatRoom,
+    onMutate: () => {},
+    onSuccess: (data: any) => {
+      navigate(`@${data.name}`);
+    },
+    onError: () => {
+      toast({
+        status: "error",
+        title: "Failed",
+        description: `something wrong`,
+      });
+    },
+  });
 
   const onSubmit = (data: IPostChatRoomVars) => {
     mutation.mutate(data);
   };
 
-  const deleteMutation = useMutation<any, any, IDeleteChatRoomVar>(
-    deleteChatRoom,
-    {
-      onMutate: () => {},
-      onSuccess: () => {
-        toast({
-          status: "success",
-          title: "Succeed",
-          description: "Chat room deleted",
-        });
-        queryClient.invalidateQueries(["chatRooms"]);
-        onInfoClose();
-      },
-      onError: () => {
-        toast({
-          status: "error",
-          title: "Failed",
-          description: `something wrong`,
-        });
-      },
-    }
-  );
+  const deleteMutation = useMutation<any, any, IDeleteChatRoomVar>({
+    mutationFn: deleteChatRoom,
+    onMutate: () => {},
+    onSuccess: () => {
+      toast({
+        status: "success",
+        title: "Succeed",
+        description: "Chat room deleted",
+      });
+      queryClient.invalidateQueries({ queryKey: ["chatRooms"] });
+      onInfoClose();
+    },
+    onError: () => {
+      toast({
+        status: "error",
+        title: "Failed",
+        description: `something wrong`,
+      });
+    },
+  });
 
   const onDeleteSubmit = (data: IDeleteChatRoomVar) => {
     deleteMutation.mutate(data);

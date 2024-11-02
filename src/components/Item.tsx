@@ -21,7 +21,7 @@ import {
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { addWish, IAddWishVars } from "../api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface IItemProps {
   imageUrl: string;
@@ -52,11 +52,12 @@ export default function Item({
   const toast = useToast();
   const [wished, setWished] = useState(is_wished);
   const queryCLient = useQueryClient();
-  const mutation = useMutation<any, any, IAddWishVars>(addWish, {
+  const mutation = useMutation<any, any, IAddWishVars>({
+    mutationFn: addWish,
     onMutate: () => {
       setWished((prev) => !prev);
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         status: "success",
         title: "Ok!",
@@ -87,7 +88,7 @@ export default function Item({
   const onHeartClick = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     event.preventDefault();
     mutation.mutate({ itemId: id });
-    queryCLient.invalidateQueries(["items"]);
+    queryCLient.invalidateQueries({ queryKey: ["items"] });
   };
   return (
     <Link to={`/items/${id}`}>

@@ -17,8 +17,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { FaUserTie } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ITDs } from "./types";
 import { useMutation } from "@tanstack/react-query";
 import { deleteTD } from "../api";
@@ -30,12 +29,7 @@ interface ITDProps {
   created_at: string;
 }
 
-export default function ThanksDate({
-  id,
-  user,
-  preview,
-  created_at,
-}: ITDProps) {
+export default function ThanksDate({ id, preview, created_at }: ITDProps) {
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -52,8 +46,9 @@ export default function ThanksDate({
   const { register: registerDelete, handleSubmit: handleSubmitDelete } =
     useForm<ITDs>();
 
-  const mutationThanksDateDelete = useMutation<any, any, ITDs>(deleteTD, {
-    onSuccess: (data) => {
+  const mutationThanksDateDelete = useMutation<any, any, ITDs>({
+    mutationFn: deleteTD,
+    onSuccess: () => {
       toast({
         status: "success",
         title: "succeed",

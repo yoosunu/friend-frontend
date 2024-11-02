@@ -14,29 +14,27 @@ export default function GithubConfirm() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const code = new URLSearchParams(search).get("code");
-  const mutation = useMutation<IGHLoginSuccess, IGHLoginError, IGHLoginForm>(
-    githubLogIn,
-    {
-      onMutate: () => {},
-      onSuccess: (data) => {
-        toast({
-          status: "success",
-          title: "Welcome!",
-          description: `Happy to join you!`,
-        });
-        queryClient.refetchQueries(["me"]);
-        navigate("/");
-      },
-      onError: (error) => {
-        toast({
-          status: "error",
-          title: "Login Failed!",
-          description: `Something wrong in your github account`,
-        });
-        navigate("/");
-      },
-    }
-  );
+  const mutation = useMutation<IGHLoginSuccess, IGHLoginError, IGHLoginForm>({
+    mutationFn: githubLogIn,
+    onMutate: () => {},
+    onSuccess: (data) => {
+      toast({
+        status: "success",
+        title: "Welcome!",
+        description: `Happy to join you!`,
+      });
+      queryClient.refetchQueries({ queryKey: ["me"] });
+      navigate("/");
+    },
+    onError: () => {
+      toast({
+        status: "error",
+        title: "Login Failed!",
+        description: `Something wrong in your github account`,
+      });
+      navigate("/");
+    },
+  });
 
   useEffect(() => {
     if (code) {

@@ -35,34 +35,36 @@ export default function ItemDetail() {
   const toast = useToast();
   const { itemId } = useParams();
 
-  const { isLoading, data } = useQuery<IItemDetail>([`items`, itemId], getItem);
+  const { isLoading, data } = useQuery<IItemDetail>({
+    queryKey: [`items`, itemId],
+    queryFn: getItem,
+  });
   const { data: reviewsData, isLoading: isReviewsLoading } = useQuery<
     IReview[]
-  >([`items`, itemId, `reviews`], getItemReviews);
+  >({ queryKey: [`items`, itemId, `reviews`], queryFn: getItemReviews });
   const { register, handleSubmit, setValue } = useForm<IReviewUploadVars>();
   const { handleSubmit: handleDeleteSubmit } = useForm<IReviewDeleteVars>();
-  const mutationPost = useMutation<any, IReviewUploadError, IReviewUploadVars>(
-    uploadReview,
-    {
-      onMutate: () => {},
-      onSuccess: () => {
-        toast({
-          status: "success",
-          title: "Succeed",
-          description: "Upload Complete.",
-        });
-        window.location.reload();
-      },
-      onError: (error) => {
-        toast({
-          status: "error",
-          title: "Failed",
-          description: `Rating is required`,
-        });
-      },
-    }
-  );
-  const mutationDelete = useMutation(deleteReview, {
+  const mutationPost = useMutation<any, IReviewUploadError, IReviewUploadVars>({
+    mutationFn: uploadReview,
+    onMutate: () => {},
+    onSuccess: () => {
+      toast({
+        status: "success",
+        title: "Succeed",
+        description: "Upload Complete.",
+      });
+      window.location.reload();
+    },
+    onError: (error) => {
+      toast({
+        status: "error",
+        title: "Failed",
+        description: `Rating is required`,
+      });
+    },
+  });
+  const mutationDelete = useMutation({
+    mutationFn: deleteReview,
     onMutate: (data) => {},
     onSuccess: (data, variables) => {
       toast({

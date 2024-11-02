@@ -49,7 +49,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     IBasicLoginSuccess,
     IBasicLoginError,
     IBasicLoginVars
-  >(basicLogIn, {
+  >({
+    mutationFn: basicLogIn,
     onMutate: () => {},
     onSuccess: (data) => {
       toast({
@@ -59,7 +60,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       });
       reset();
       onClose();
-      queryClient.refetchQueries(["me"]);
+      queryClient.refetchQueries({ queryKey: ["me"] });
     },
     onError: (error) => {
       toast({
@@ -126,7 +127,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </Text>
           ) : null}
           <Button
-            isLoading={mutation.isLoading}
+            isLoading={mutation.status === "pending"}
             type="submit"
             marginTop={4}
             width={"100%"}

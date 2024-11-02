@@ -1,11 +1,4 @@
-import {
-  Button,
-  Heading,
-  Spinner,
-  Text,
-  useToast,
-  VStack,
-} from "@chakra-ui/react";
+import { Heading, Spinner, Text, useToast, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { kakaoLogIn } from "../../api";
@@ -27,7 +20,7 @@ export default function KakaoConfirm() {
           title: "Welcome!",
           description: "Happy to join you!",
         });
-        queryClient.refetchQueries(["me"]);
+        queryClient.refetchQueries({ queryKey: ["me"] });
         navigate("/");
       }
     }

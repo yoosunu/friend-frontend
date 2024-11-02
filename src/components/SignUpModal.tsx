@@ -40,29 +40,27 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
   } = useForm<ISignUpForm>();
   const toast = useToast();
   const queryClient = useQueryClient();
-  const mutation = useMutation<ISignUpSuccess, ISignUpError, ISignUpVars>(
-    signUp,
-    {
-      onMutate: () => {},
-      onSuccess: (data) => {
-        toast({
-          title: "Signed Up!",
-          status: "success",
-          description: data.ok,
-        });
-        reset();
-        onClose();
-        queryClient.refetchQueries(["me"]);
-      },
-      onError: (error) => {
-        toast({
-          title: "SignUp Failed",
-          status: "error",
-          description: error.error,
-        });
-      },
-    }
-  );
+  const mutation = useMutation<ISignUpSuccess, ISignUpError, ISignUpVars>({
+    mutationFn: signUp,
+    onMutate: () => {},
+    onSuccess: (data) => {
+      toast({
+        title: "Signed Up!",
+        status: "success",
+        description: data.ok,
+      });
+      reset();
+      onClose();
+      queryClient.refetchQueries({ queryKey: ["me"] });
+    },
+    onError: (error) => {
+      toast({
+        title: "SignUp Failed",
+        status: "error",
+        description: error.error,
+      });
+    },
+  });
   const onSubmit = ({ username, password, email }: ISignUpForm) => {
     mutation.mutate({ username, password, email });
   };
@@ -133,7 +131,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
             </InputGroup>
           </VStack>
           <Button
-            isLoading={mutation.isLoading}
+            isLoading={mutation.status === "pending"}
             type="submit"
             marginTop={4}
             width={"100%"}

@@ -13,7 +13,10 @@ import {
 } from "@chakra-ui/react";
 
 export default function Profile() {
-  const { isLoading, data } = useQuery<IUser>(["me"], getMe);
+  const { isLoading, data } = useQuery<IUser>({
+    queryKey: ["me"],
+    queryFn: getMe,
+  });
   let formattedDate: string = "";
   if (!isLoading) {
     const dateStr = data?.date_joined;

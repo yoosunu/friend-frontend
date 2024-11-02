@@ -37,7 +37,10 @@ export default function PutItem() {
   const navigate = useNavigate();
   const { itemId } = useParams();
   const { register, handleSubmit } = useForm<IItemPutVars>();
-  const { isLoading, data } = useQuery<IItemDetail>(["item", itemId], getItem);
+  const { isLoading, data } = useQuery<IItemDetail>({
+    queryKey: ["item", itemId],
+    queryFn: getItem,
+  });
   const { isLoading: isTagLoading, data: tags } = useQuery<IItemTagsTag[]>({
     queryKey: ["tags"],
     queryFn: getTags,
@@ -48,34 +51,32 @@ export default function PutItem() {
     dts = data?.tags.map((d) => d.id) || [];
     ts = tags?.map((t) => t.id) || [];
   }
-  const mutation = useMutation<IItemPostSuccess, IItemPutError, IItemPutVars>(
-    (updatedData) => putItem(updatedData),
-    {
-      onMutate: (updatedData) => {
-        toast({
-          status: "loading",
-          title: "putting...",
-          description: `wait a moment please... `,
-        });
-      },
-      onSuccess: (data) => {
-        toast({
-          status: "success",
-          title: "Succeed",
-          description: "Put Complete.",
-        });
+  const mutation = useMutation<IItemPostSuccess, IItemPutError, IItemPutVars>({
+    mutationFn: (updatedData) => putItem(updatedData),
+    onMutate: () => {
+      toast({
+        status: "loading",
+        title: "putting...",
+        description: `wait a moment please... `,
+      });
+    },
+    onSuccess: (data) => {
+      toast({
+        status: "success",
+        title: "Succeed",
+        description: "Put Complete.",
+      });
 
-        navigate(`/items/${data.id}`);
-      },
-      onError: (error) => {
-        toast({
-          status: "error",
-          title: "Failed",
-          description: `${error.error}`,
-        });
-      },
-    }
-  );
+      navigate(`/items/${data.id}`);
+    },
+    onError: (error) => {
+      toast({
+        status: "error",
+        title: "Failed",
+        description: `${error.error}`,
+      });
+    },
+  });
   const onSubmit = (data: IItemPutVars) => {
     const filteredData = Object.entries(data).reduce((acc, [key, value]) => {
       if (value !== "" && value !== undefined && value !== null) {

@@ -44,7 +44,8 @@ export default function HomeHeader() {
   const toast = useToast();
   const queryClient = useQueryClient();
   const toastId = useRef<ToastId>();
-  const mutation = useMutation(logOut, {
+  const mutation = useMutation({
+    mutationFn: logOut,
     onMutate: () => {
       toastId.current = toast({
         status: "loading",
@@ -54,7 +55,7 @@ export default function HomeHeader() {
     },
     onSuccess: () => {
       if (toastId.current) {
-        queryClient.refetchQueries(["me"]);
+        queryClient.refetchQueries({ queryKey: ["me"] });
         toast.update(toastId.current, {
           status: "success",
           title: "Done!",

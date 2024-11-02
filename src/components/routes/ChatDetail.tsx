@@ -22,14 +22,17 @@ export default function ChatDetail() {
   const queryClient = useQueryClient();
   const { chatRoomName } = useParams<{ chatRoomName: string }>();
   const { user, isLoggedIn, userLoading } = useUser();
-  const { isLoading, data } = useQuery<IChat[]>(
-    ["chatDetails", chatRoomName],
-    getChatDetails
-  );
+  const { isLoading, data } = useQuery<IChat[]>({
+    queryKey: ["chatDetails", chatRoomName],
+    queryFn: getChatDetails,
+  });
   const { register, handleSubmit, reset } = useForm<IChatPostVars>();
-  const mutation = useMutation(postChatDetail, {
+  const mutation = useMutation({
+    mutationFn: postChatDetail,
     onSuccess: async () => {
-      queryClient.invalidateQueries(["chatDetails", chatRoomName]);
+      queryClient.invalidateQueries({
+        queryKey: ["chatDetails", chatRoomName],
+      });
       reset({ chat: "" });
     },
   });
@@ -37,7 +40,7 @@ export default function ChatDetail() {
     mutation.mutate(data);
   };
   useEffect(() => {
-    queryClient.invalidateQueries(["chatDetails", chatRoomName]);
+    queryClient.invalidateQueries({ queryKey: ["chatDetails", chatRoomName] });
   }, []);
   return (
     <>

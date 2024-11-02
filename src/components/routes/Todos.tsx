@@ -1,12 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { IEveryday, ITodos } from "../types";
+import { ITodos } from "../types";
 import {
   deleteTodo,
   getTodos,
   IDeleteTodoVar,
   IPostTodoVar,
   postTodo,
-  putEveryday,
 } from "../../api";
 import {
   Box,
@@ -51,15 +50,16 @@ export default function Todos() {
   const { register: todoDeleteRegister, handleSubmit: handleTodoDeleteSubmit } =
     useForm<IDeleteTodoVar>();
 
-  const mutation = useMutation<any, any, IPostTodoVar>(postTodo, {
+  const mutation = useMutation<any, any, IPostTodoVar>({
+    mutationFn: postTodo,
     onMutate: () => {},
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         status: "success",
         title: "Succeed",
         description: "Todo List created",
       });
-      queryClient.invalidateQueries(["todos"]);
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
       onTodoPostClose();
     },
     onError: () => {
@@ -73,7 +73,8 @@ export default function Todos() {
   const onTodoPostSubmit = (data: IPostTodoVar) => {
     mutation.mutate(data);
   };
-  const deleteMutation = useMutation<any, any, IDeleteTodoVar>(deleteTodo, {
+  const deleteMutation = useMutation<any, any, IDeleteTodoVar>({
+    mutationFn: deleteTodo,
     onMutate: () => {},
     onSuccess: () => {
       toast({
@@ -81,7 +82,7 @@ export default function Todos() {
         title: "Succeed",
         description: "Todo List deleted",
       });
-      queryClient.invalidateQueries(["todos"]);
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
     onError: () => {
       toast({

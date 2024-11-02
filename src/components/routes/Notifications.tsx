@@ -21,10 +21,10 @@ import { useState } from "react";
 import { FaClock, FaHashtag, FaKey, FaTag } from "react-icons/fa";
 
 export default function Notifications() {
-  const { isLoading, data } = useQuery<INotifications[]>(
-    ["notifications"],
-    getNotifications
-  );
+  const { isLoading, data } = useQuery<INotifications[]>({
+    queryKey: ["notifications"],
+    queryFn: getNotifications,
+  });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [activeNoti, setActivNoti] = useState<INotifications | null>(null);
 
