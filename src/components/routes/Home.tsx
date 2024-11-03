@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getItems } from "../../api";
 import { IItemList } from "../types";
 
+// t.map is not a function
 export default function Home() {
   const { isLoading, data } = useQuery<IItemList[]>({
     queryKey: ["items"],
