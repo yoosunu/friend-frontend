@@ -154,14 +154,17 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
   // useForm section
   const { register: registerEveryday, handleSubmit: handleSubmitEveryday } =
     useForm<IEveryday>();
+
   const {
     register: registerEverydayPut,
     handleSubmit: handleSubmitEverydayPut,
   } = useForm<IEveryday>();
+
   const {
     register: registerEverydayDelete,
     handleSubmit: handleSubmitEverydayDelete,
   } = useForm<IEveryday>();
+
   const { register: registerPlan, handleSubmit: handleSubmitPlan } =
     useForm<IPlan>();
   const { register: registerPlanPut, handleSubmit: handleSubmitPlanPut } =
@@ -662,7 +665,7 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
                       <FormControl mb={4}>
                         <Input
                           type="date"
-                          {...registerPlanPut("time", { required: true })}
+                          {...registerPlanPut("time", { required: false })}
                           placeholder="wanna change time?"
                           size={"xs"}
                           w={"70%"}
@@ -675,7 +678,7 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
                           size={"xs"}
                           w={"70%"}
                           {...registerPlanPut("description", {
-                            required: true,
+                            required: false,
                           })}
                           placeholder="Detail of plan."
                         />
@@ -690,7 +693,7 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
                       <FormControl>
                         <Input
                           placeholder="Wanna change name?"
-                          {...registerPlanPut("name", { required: true })}
+                          {...registerPlanPut("name", { required: false })}
                           size={"xs"}
                           width={"70%"}
                         />

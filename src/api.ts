@@ -1,8 +1,7 @@
 import Cookie from "js-cookie";
 import { QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios";
-import { IEveryday, IPlan, ITDs, ITks } from "./components/types";
-import { ITkDelete } from "./components/routes/ThanksDatesDetail";
+import { IEveryday, IPlan, ITDs, ITkDelete, ITks } from "./components/types";
 
 const instance = axios.create({
   baseURL:
@@ -231,7 +230,7 @@ export const postTk = async (data: ITks) => {
 };
 // tk-delete
 export const deleteTk = async (data: ITkDelete) => {
-  const response = await instance.delete(`thanks/${data.id}/tks/${data.tkId}`, {
+  const response = await instance.delete(`thanks/${data.tdId}/tks/${data.id}`, {
     headers: {
       "X-CSRFToken": Cookie.get("csrftoken") || "",
     },

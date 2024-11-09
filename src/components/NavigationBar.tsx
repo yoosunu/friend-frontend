@@ -78,9 +78,6 @@ export default function HomeNavigationBar() {
           <Link to={"/chats"}>
             <Button colorScheme="green">Chats</Button>
           </Link>
-          <Link to={"/friend"}>
-            <Button colorScheme="green">Friend</Button>
-          </Link>
           <Link to={"/thanks"}>
             <Button colorScheme="green">Thanks</Button>
           </Link>
@@ -89,6 +86,11 @@ export default function HomeNavigationBar() {
           </Link>
           <Link to={"/weathers"}>
             <Button colorScheme="green">Weathers</Button>
+          </Link>
+          <Link to={"/friend"}>
+            <Button isDisabled colorScheme="red">
+              Friend
+            </Button>
           </Link>
         </HStack>
       )}

@@ -23,18 +23,12 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ITDs, ITks } from "../types";
+import { ITDs, ITkDelete, ITks } from "../types";
 import { deleteTk, getTDs, getTks, postTk } from "../../api";
 import { useParams } from "react-router-dom";
 import { FaEllipsisV, FaPlus } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-
-export interface ITkDelete {
-  id: string;
-  tkId: string;
-  payload: string;
-}
 
 export default function ThanksDatesDetail() {
   const [isPosted, setIsPosted] = useState(false);
@@ -70,6 +64,9 @@ export default function ThanksDatesDetail() {
     queryKey: [`tks`, tdId],
     queryFn: getTks,
   });
+
+  const [thanks, setThanks] = useState<ITks | null>(null);
+
   if (!isLoading) {
     tkId = data!.map((tk) => tk.thanksDate.id);
     tkPreview = data!.map((tk) => tk.thanksDate.preview);
@@ -92,6 +89,7 @@ export default function ThanksDatesDetail() {
     mutationFn: postTk,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tks"] });
+      queryClient.refetchQueries({ queryKey: ["tks"] });
       onClosePost();
     },
     onError: () => {
@@ -125,14 +123,19 @@ export default function ThanksDatesDetail() {
     mutationPost.mutate(data);
   };
   const onSubmitDelete = (data: ITkDelete) => {
-    mutationDelete.mutate(data);
+    mutationDelete.mutate({
+      tdId: tdId!,
+      id: thanks!.id,
+      thanksDate: ThatTd!,
+      payload: "",
+    });
   };
 
   useEffect(() => {
     if (!isLoading && data?.length === 0 && !isPosted) {
       mutationPost.mutate({
         payload: "Always Love U.",
-        id: `${ThatTd!.id}`,
+        id: `${ThatTd?.id}`,
         thanksDate: ThatTd!,
       });
       setIsPosted(true);
@@ -140,11 +143,12 @@ export default function ThanksDatesDetail() {
   }, [isLoading, data, ThatTd]);
 
   useEffect(() => {
-    if (!isLoading && data?.length! > 1) {
+    if (!isLoading && data?.length! > 1 && defaultTk) {
       mutationDelete.mutate({
-        id: `${ThatTd!.id}`,
-        tkId: `${defaultTk!.id}`,
-        payload: `${defaultTk!.payload}`,
+        tdId: `${ThatTd?.id}`,
+        id: `${defaultTk?.id}`,
+        payload: `${defaultTk?.payload}`,
+        thanksDate: ThatTd!,
       });
     }
   }, [isLoading, data, ThatTd, defaultTk]);
@@ -186,21 +190,21 @@ export default function ThanksDatesDetail() {
                   <Text>{tk.payload}</Text>
                 </Box>
                 <Menu>
-                  <MenuButton>
+                  <MenuButton onClick={() => setThanks(tk)}>
                     <FaEllipsisV />
                   </MenuButton>
                   <MenuList>
                     <FormControl>
                       <Input
                         type="hidden"
-                        {...registerDelete("id", { required: true })}
+                        {...registerDelete("tdId", { required: true })}
                         value={tdId}
                       />
                     </FormControl>
                     <FormControl>
                       <Input
                         type="hidden"
-                        {...registerDelete("tkId", { required: true })}
+                        {...registerDelete("id", { required: true })}
                         value={tk.id}
                       />
                     </FormControl>

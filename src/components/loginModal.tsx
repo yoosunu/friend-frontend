@@ -127,7 +127,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </Text>
           ) : null}
           <Button
-            isLoading={mutation.status === "pending"}
+            // isLoading={mutation.status === "pending"}
             type="submit"
             marginTop={4}
             width={"100%"}

@@ -141,6 +141,10 @@ export interface ITks {
   payload: string;
 }
 
+export interface ITkDelete extends ITks {
+  tdId: string;
+}
+
 // todos
 
 export interface IEveryday {

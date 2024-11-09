@@ -42,6 +42,7 @@ import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import useUser from "../../lib/useUser";
+import { useEffect } from "react";
 
 interface IUser {
   id: string;
@@ -64,12 +65,9 @@ export default function Chats() {
     onOpen: onInfoOpen,
     onClose: onInfoClose,
   } = useDisclosure();
-  const { register, handleSubmit } = useForm<IPostChatRoomVars>();
-  const {
-    register: deleteRegister,
-    handleSubmit: handleDeleteSubmit,
-    watch,
-  } = useForm<IDeleteChatRoomVar>();
+  const { register, handleSubmit, watch } = useForm<IPostChatRoomVars>();
+  const { register: deleteRegister, handleSubmit: handleDeleteSubmit } =
+    useForm<IDeleteChatRoomVar>();
   const { isLoading, data } = useQuery<IChatRooms[]>({
     queryKey: ["chatRooms"],
     queryFn: getChats,
@@ -124,7 +122,7 @@ export default function Chats() {
         py={20}
         mt={10}
         px={{
-          base: 24,
+          base: 10,
           lg: 40,
         }}
       >
@@ -176,7 +174,7 @@ export default function Chats() {
                       </Box>
                       <Box mb={8}>
                         {chat.people.map((p) => (
-                          <Box key={p[0]}>{`${p} `}</Box>
+                          <Box key={p.length}>{`${p} `}</Box>
                         ))}
                       </Box>
                       <Box>
@@ -234,7 +232,7 @@ export default function Chats() {
             <FormControl mb={10}>
               <FormLabel>Name</FormLabel>
               <Input
-                {...register("name", { required: true })}
+                {...register("name", { required: false })}
                 placeholder="name of the chatroom"
               />
             </FormControl>
@@ -247,7 +245,7 @@ export default function Chats() {
                   {users?.map((user) => (
                     <Checkbox
                       key={user.id}
-                      {...register("users", { required: true })}
+                      {...register("users", { required: false })}
                       value={user.id}
                     >
                       <Text color={me?.name === user.name ? "blue" : undefined}>

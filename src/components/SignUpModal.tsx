@@ -131,7 +131,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
             </InputGroup>
           </VStack>
           <Button
-            isLoading={mutation.status === "pending"}
+            // isLoading={mutation.status === "pending"}
             type="submit"
             marginTop={4}
             width={"100%"}
