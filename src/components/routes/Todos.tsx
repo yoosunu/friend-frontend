@@ -1,12 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ITodos } from "../types";
-import {
-  deleteTodo,
-  getTodos,
-  IDeleteTodoVar,
-  IPostTodoVar,
-  postTodo,
-} from "../../api";
+import { ITDs, ITodos } from "../types";
+import { deleteTodo, getTodos, IPostTodoVar, postTodo } from "../../api";
 import {
   Box,
   Button,
@@ -32,6 +26,7 @@ import {
 import Todo from "../Todo";
 import { FaBars, FaPlus } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 export default function Todos() {
   const {
@@ -39,16 +34,20 @@ export default function Todos() {
     onOpen: onTodoPostOpen,
     onClose: onTodoPostClose,
   } = useDisclosure();
+
   const queryClient = useQueryClient();
   const toast = useToast();
   const { isLoading, data } = useQuery<ITodos[]>({
     queryKey: ["todos"],
     queryFn: getTodos,
   });
+
+  const [td, setTd] = useState<ITodos | null>(null);
+
   const { register: todoPostRegister, handleSubmit: handleTodoPostSubmit } =
     useForm<IPostTodoVar>();
   const { register: todoDeleteRegister, handleSubmit: handleTodoDeleteSubmit } =
-    useForm<IDeleteTodoVar>();
+    useForm<ITodos>();
 
   const mutation = useMutation<any, any, IPostTodoVar>({
     mutationFn: postTodo,
@@ -73,7 +72,7 @@ export default function Todos() {
   const onTodoPostSubmit = (data: IPostTodoVar) => {
     mutation.mutate(data);
   };
-  const deleteMutation = useMutation<any, any, IDeleteTodoVar>({
+  const deleteMutation = useMutation<any, any, ITodos>({
     mutationFn: deleteTodo,
     onMutate: () => {},
     onSuccess: () => {
@@ -82,6 +81,7 @@ export default function Todos() {
         title: "Succeed",
         description: "Todo List deleted",
       });
+      onTodoPostClose();
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
     onError: () => {
@@ -92,8 +92,15 @@ export default function Todos() {
       });
     },
   });
-  const onTodoDeleteSubmit = (data: IDeleteTodoVar) => {
-    deleteMutation.mutate(data);
+  const onTodoDeleteSubmit = (data: ITodos) => {
+    deleteMutation.mutate({
+      id: td!.id,
+      created_at: td!.created_at,
+      updated_at: td!.updated_at,
+      name: td!.name,
+      everydays: [],
+      plans: [],
+    });
   };
   return (
     <VStack alignItems={"center"} py={20}>
@@ -115,7 +122,7 @@ export default function Todos() {
               mb={10}
             >
               <Menu>
-                <VStack>
+                <VStack onClick={() => setTd(todo)}>
                   <MenuButton
                     shadow={"xl"}
                     pl={4}
@@ -146,13 +153,6 @@ export default function Todos() {
                     Delete
                   </MenuItem>
                 </MenuList>
-                <FormControl>
-                  <Input
-                    type="hidden"
-                    {...todoDeleteRegister("id", { required: true })}
-                    value={todo.id}
-                  />
-                </FormControl>
               </Menu>
             </Box>
             <Box mb={20}>

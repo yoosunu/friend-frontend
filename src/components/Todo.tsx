@@ -182,9 +182,8 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
         title: "Succeed",
         description: "Everyday updated",
       });
-
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
       onEverydayClose();
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
     onError: () => {
       toast({
@@ -203,9 +202,8 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
         title: "Succeed",
         description: "Changed",
       });
-
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
       onPutEverydayClose();
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
     onError: () => {
       toast({
@@ -223,9 +221,8 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
         title: "Succeed",
         description: "Changed",
       });
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
       onPutEverydayClose();
-      window.location.reload();
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
     onError: () => {
       toast({
@@ -238,15 +235,14 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
   const mutationPlanPost = useMutation<any, IPostPlanError, IPlan>({
     mutationFn: postPlan,
     onMutate: () => {},
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         status: "success",
         title: "Succeed",
         description: "Plan updated",
       });
-      console.log(data);
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
       onPlanClose();
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
     onError: (error) => {
       toast({
@@ -265,9 +261,8 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
         title: "Succeed",
         description: "Plan updated",
       });
-
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
       onPutPlanClose();
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
     onError: () => {
       toast({
@@ -285,9 +280,8 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
         title: "Succeed",
         description: "Changed",
       });
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
       onPutPlanClose();
-      window.location.reload();
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
     onError: () => {
       toast({
@@ -315,7 +309,13 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
     });
   };
   const onSubmitEverydayDelete = (data: IEveryday) => {
-    mutationEverydayDelete.mutate(data);
+    mutationEverydayDelete.mutate({
+      id: id,
+      everydayId: activeEveryday!.id,
+      name: activeEveryday!.name,
+      time: activeEveryday!.time,
+      done: activeEveryday!.done,
+    });
   };
   const onSubmitPlan = (data: IPlan) => {
     mutationPlanPost.mutate(data);
@@ -334,7 +334,14 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
     });
   };
   const onSubmitPlanDelete = (data: IPlan) => {
-    mutationPlanDelete.mutate(data);
+    mutationPlanDelete.mutate({
+      id: id,
+      planId: activePlan!.id,
+      name: activePlan!.name,
+      time: activePlan!.time,
+      description: activePlan!.description,
+      done: activePlan!.done,
+    });
   };
   return (
     <VStack alignItems={"center"}>
@@ -699,16 +706,6 @@ export default function Todo({ id, everydays, plans }: ITodoProps) {
                         />
                       </FormControl>
                     </VStack>
-                    <Input
-                      {...registerPlanDelete("id")}
-                      type="hidden"
-                      value={id}
-                    />
-                    <Input
-                      {...registerPlanDelete("planId")}
-                      type="hidden"
-                      value={plan.id}
-                    />
                   </Grid>
 
                   <HStack mt={8} mb={3}>

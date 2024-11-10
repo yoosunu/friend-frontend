@@ -101,6 +101,12 @@ export interface IChatRoom {
   chat: string;
 }
 
+export interface IChatRoomsDelete {
+  id: string;
+  owner: IChatsUser;
+  name: string;
+}
+
 export interface IChatRoomDetail extends IChatRooms {
   users: IChatsUser[];
   chats: IChat[];

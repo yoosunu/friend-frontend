@@ -1,7 +1,16 @@
 import Cookie from "js-cookie";
 import { QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios";
-import { IEveryday, IPlan, ITDs, ITkDelete, ITks } from "./components/types";
+import {
+  IChatRooms,
+  IChatRoomsDelete,
+  IEveryday,
+  IPlan,
+  ITDs,
+  ITkDelete,
+  ITks,
+  ITodos,
+} from "./components/types";
 
 const instance = axios.create({
   baseURL:
@@ -151,10 +160,7 @@ export const postChatRoom = async (data: IPostChatRoomVars) => {
   return response.data;
 };
 
-export interface IDeleteChatRoomVar {
-  name: string;
-}
-export const deleteChatRoom = async (data: IDeleteChatRoomVar) => {
+export const deleteChatRoom = async (data: IChatRoomsDelete) => {
   const response = await instance.delete(`chats/@${data.name}`, {
     headers: { "X-CSRFToken": Cookie.get("csrftoken") || "" },
   });
@@ -275,11 +281,7 @@ export const postTodo = async (data: IPostTodoVar) => {
 
 // todos-delete
 
-export interface IDeleteTodoVar {
-  id: string;
-}
-
-export const deleteTodo = async (data: IDeleteTodoVar) => {
+export const deleteTodo = async (data: ITodos) => {
   const response = await instance.delete(`todos/${data.id}`, {
     headers: {
       "X-CSRFToken": Cookie.get("csrftoken") || "",

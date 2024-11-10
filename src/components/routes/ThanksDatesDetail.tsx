@@ -109,7 +109,6 @@ export default function ThanksDatesDetail() {
         description: "Thank added.",
       });
       queryClient.invalidateQueries({ queryKey: ["tks"] });
-      window.location.reload();
     },
     onError: () => {
       toast({

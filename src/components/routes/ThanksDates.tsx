@@ -23,6 +23,7 @@ import ThanksDate from "../ThanksDate";
 import ThanksDateSkeleton from "../skeleton/ThanksDateSkeleton";
 import { FaPlus } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 export default function ThanksDates() {
   const queryClient = useQueryClient();
@@ -31,6 +32,8 @@ export default function ThanksDates() {
     queryKey: ["thanksDates"],
     queryFn: getTDs,
   });
+
+  const [td, setTd] = useState<ITDs | null>(null);
 
   // useDisclosure section
   const { onOpen, onClose, isOpen } = useDisclosure();

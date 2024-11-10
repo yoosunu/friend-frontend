@@ -30,19 +30,18 @@ import {
   deleteChatRoom,
   getChats,
   getUsers,
-  IDeleteChatRoomVar,
   IPostChatRoomSuccess,
   IPostChatRoomVars,
   postChatRoom,
 } from "../../api";
-import { IChatRooms } from "../types";
+import { IChatRooms, IChatRoomsDelete } from "../types";
 import Chat from "../Chat";
 import ChatSkeleton from "../skeleton/ChatSkeleton";
 import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import useUser from "../../lib/useUser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface IUser {
   id: string;
@@ -65,17 +64,20 @@ export default function Chats() {
     onOpen: onInfoOpen,
     onClose: onInfoClose,
   } = useDisclosure();
-  const { register, handleSubmit, watch } = useForm<IPostChatRoomVars>();
+  const { register, handleSubmit } = useForm<IPostChatRoomVars>();
   const { register: deleteRegister, handleSubmit: handleDeleteSubmit } =
-    useForm<IDeleteChatRoomVar>();
+    useForm<IChatRooms>();
   const { isLoading, data } = useQuery<IChatRooms[]>({
     queryKey: ["chatRooms"],
     queryFn: getChats,
   });
+
+  const [chatroom, setChatroom] = useState<IChatRooms | null>(null);
+
   const mutation = useMutation<IPostChatRoomSuccess, any, IPostChatRoomVars>({
     mutationFn: postChatRoom,
     onMutate: () => {},
-    onSuccess: (data: any) => {
+    onSuccess: (data: IPostChatRoomSuccess) => {
       navigate(`@${data.name}`);
     },
     onError: () => {
@@ -91,7 +93,7 @@ export default function Chats() {
     mutation.mutate(data);
   };
 
-  const deleteMutation = useMutation<any, any, IDeleteChatRoomVar>({
+  const deleteMutation = useMutation<any, any, IChatRoomsDelete>({
     mutationFn: deleteChatRoom,
     onMutate: () => {},
     onSuccess: () => {
@@ -112,8 +114,12 @@ export default function Chats() {
     },
   });
 
-  const onDeleteSubmit = (data: IDeleteChatRoomVar) => {
-    deleteMutation.mutate(data);
+  const onDeleteSubmit = ({ name }: IChatRoomsDelete) => {
+    deleteMutation.mutate({
+      id: chatroom!.id,
+      owner: chatroom!.owner,
+      name: chatroom!.name,
+    });
   };
 
   return (
@@ -140,7 +146,14 @@ export default function Chats() {
           <Text>No ChatRoom</Text>
         ) : (
           data?.map((chat) => (
-            <Box key={chat.id} w={"100%"} onClick={onInfoOpen}>
+            <Box
+              key={chat.id}
+              w={"100%"}
+              onClick={() => {
+                onInfoOpen();
+                setChatroom(chat);
+              }}
+            >
               <Chat
                 id={chat.id}
                 name={chat.name}
@@ -167,13 +180,13 @@ export default function Chats() {
                         <Text as={"b"}>Name</Text>
                       </Box>
                       <Box mb={8}>
-                        <Text>{chat.name}</Text>
+                        <Text>{chatroom?.name}</Text>
                       </Box>
                       <Box>
                         <Text as={"b"}>People</Text>
                       </Box>
                       <Box mb={8}>
-                        {chat.people.map((p) => (
+                        {chatroom?.people.map((p) => (
                           <Box key={p.length}>{`${p} `}</Box>
                         ))}
                       </Box>
@@ -181,7 +194,7 @@ export default function Chats() {
                         <Text as={"b"}>Owner</Text>
                       </Box>
                       <Box>
-                        <Text>{chat.owner.name}</Text>
+                        <Text>{chatroom?.owner.name}</Text>
                       </Box>
                     </VStack>
                     <HStack mb={6}>
@@ -189,7 +202,7 @@ export default function Chats() {
                         w={"100%"}
                         colorScheme="green"
                         mt={10}
-                        onClick={() => navigate(`@${chat.name}`)}
+                        onClick={() => navigate(`@${chatroom?.name}`)}
                       >
                         Go to chat
                       </Button>
@@ -202,15 +215,6 @@ export default function Chats() {
                         Delete
                       </Button>
                     </HStack>
-                    <FormControl>
-                      <Input
-                        type="hidden"
-                        {...deleteRegister("name", {
-                          required: true,
-                          value: chat.name,
-                        })}
-                      />
-                    </FormControl>
                   </DrawerBody>
                 </DrawerContent>
               </Drawer>
@@ -232,7 +236,7 @@ export default function Chats() {
             <FormControl mb={10}>
               <FormLabel>Name</FormLabel>
               <Input
-                {...register("name", { required: false })}
+                {...register("name", { required: true })}
                 placeholder="name of the chatroom"
               />
             </FormControl>
@@ -245,7 +249,7 @@ export default function Chats() {
                   {users?.map((user) => (
                     <Checkbox
                       key={user.id}
-                      {...register("users", { required: false })}
+                      {...register("users", { required: true })}
                       value={user.id}
                     >
                       <Text color={me?.name === user.name ? "blue" : undefined}>

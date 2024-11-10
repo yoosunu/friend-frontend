@@ -19,7 +19,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ITDs } from "./types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteTD } from "../api";
 
 interface ITDProps {
@@ -32,6 +32,7 @@ interface ITDProps {
 export default function ThanksDate({ id, preview, created_at }: ITDProps) {
   const toast = useToast();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const dateStr = created_at;
   const created_date = new Date(dateStr!);
@@ -54,7 +55,7 @@ export default function ThanksDate({ id, preview, created_at }: ITDProps) {
         title: "succeed",
         description: "ThanksDate deleted",
       });
-      window.location.reload();
+      queryClient.invalidateQueries({ queryKey: ["thanksDates"] });
     },
     onError: () => {
       toast({
