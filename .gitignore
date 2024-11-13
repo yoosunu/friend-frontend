@@ -23,3 +23,9 @@ yarn-debug.log*
 yarn-error.log*
 
 tmp
+
+Dockerfile
+fly.toml
+package-lock.json
+package.json
+tsconfig.json
