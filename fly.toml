@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for apot-frontend on 2024-11-13T23:48:52+09:00
+# fly.toml app configuration file generated for apot-frontend on 2024-11-14T07:14:40+09:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -10,7 +10,7 @@ primary_region = 'nrt'
 
 [http_service]
   internal_port = 8080
-  force_https = truex
+  force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
