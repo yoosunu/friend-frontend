@@ -49,8 +49,15 @@ export const signUp = ({ username, password, email }: ISignUpVars) =>
     .then((response) => response.data);
 
 // login
-export const getMe = () =>
-  instance.get(`users/me`).then((response) => response.data);
+export const getMe = () => {
+  const response = instance
+    .get(`users/me`, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+};
 
 export interface IGHLoginVars {
   code: string;
