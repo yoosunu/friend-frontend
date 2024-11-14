@@ -49,6 +49,7 @@ export const signUp = ({ username, password, email }: ISignUpVars) =>
     .then((response) => response.data);
 
 // login
+// should have headers?
 export const getMe = async () => {
   const response = await instance.get(`users/me`, {
     headers: {
