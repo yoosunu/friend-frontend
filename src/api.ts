@@ -49,6 +49,7 @@ export const signUp = ({ username, password, email }: ISignUpVars) =>
     .then((response) => response.data);
 
 // login
+//slash test
 export const getMe = async () =>
   instance.get(`users/me/`).then((response) => response.data);
 
