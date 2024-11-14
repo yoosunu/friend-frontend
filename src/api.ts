@@ -49,15 +49,8 @@ export const signUp = ({ username, password, email }: ISignUpVars) =>
     .then((response) => response.data);
 
 // login
-// should have headers?
-export const getMe = async () => {
-  const response = await instance.get(`users/me`, {
-    headers: {
-      "X-CSRFToken": Cookie.get("csrftoken") || "",
-    },
-  });
-  return response.data;
-};
+export const getMe = async () =>
+  instance.get(`users/me/`).then((response) => response.data);
 
 export interface IGHLoginVars {
   code: string;
