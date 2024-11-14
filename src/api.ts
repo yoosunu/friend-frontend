@@ -2,7 +2,6 @@ import Cookie from "js-cookie";
 import { QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios";
 import {
-  IChatRooms,
   IChatRoomsDelete,
   IEveryday,
   IPlan,
@@ -51,7 +50,7 @@ export const signUp = ({ username, password, email }: ISignUpVars) =>
 // login
 //slash test
 export const getMe = async () =>
-  instance.get(`users/me/`).then((response) => response.data);
+  instance.get(`users/me`).then((response) => response.data);
 
 export interface IGHLoginVars {
   code: string;
