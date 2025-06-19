@@ -60,7 +60,7 @@ export async function subscribeToPush() {
   console.log("📡 Push Subscription (converted):", JSON.stringify(body));
 
   // 서버에 POST 요청
-  await fetch("http://127.0.0.1:8000/api/v1/subscriptions/", {
+  await fetch("https://backend.apot.pro/api/v1/notifications/", {
     method: "POST",
     body: JSON.stringify(body),
     headers: {
