@@ -4,6 +4,7 @@ import router from "./router";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import theme from "./theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { registerServiceWorker } from "./components/PushButton";
 
 const client = new QueryClient();
 
@@ -18,6 +19,8 @@ root.render(
     </ChakraProvider>
   </QueryClientProvider>
 );
+
+registerServiceWorker();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

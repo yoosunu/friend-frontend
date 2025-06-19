@@ -20,6 +20,7 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { GiPear } from "react-icons/gi";
 import LoginModal from "./loginModal";
 import SignUpModal from "./SignUpModal";
+import NotificationButton from "./PushButton";
 import { Link } from "react-router-dom";
 import useUser from "../lib/useUser";
 import { logOut } from "../api";
@@ -103,6 +104,12 @@ export default function HomeHeader() {
         </Box>
       </Link>
       <HStack spacing={2}>
+        <IconButton
+          // onClick={}
+          variant="ghost"
+          aria-label="Toggle dark mode"
+          icon={<NotificationButton />}
+        ></IconButton>
         <IconButton
           onClick={toggleColorMode}
           variant="ghost"
