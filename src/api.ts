@@ -604,3 +604,27 @@ export const getNotifications = async () => {
   });
   return response.data;
 };
+
+// subs
+
+export interface ISubVars {
+  endpoint: string;
+  keys_p256dh: string;
+  keys_auth: string;
+}
+
+export const postSubs = ({ endpoint, keys_p256dh, keys_auth }: ISubVars) =>
+  instance.post(
+    `https://backend.apot.pro/api/v1/subscriptions/`,
+    {
+      endpoint,
+      keys_p256dh,
+      keys_auth,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    }
+  );

@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { FaBell, FaBellSlash, FaRegBell } from "react-icons/fa";
+import { postSubs } from "../api";
 
 export async function registerServiceWorker(): Promise<ServiceWorkerRegistration | null> {
   if ("serviceWorker" in navigator) {
@@ -52,22 +53,15 @@ export async function subscribeToPush() {
   const subscriptionJson = pushSubscription.toJSON();
 
   const body = {
-    endpoint: subscriptionJson.endpoint,
-    keys_p256dh: subscriptionJson.keys?.p256dh,
-    keys_auth: subscriptionJson.keys?.auth,
+    endpoint: subscriptionJson.endpoint!,
+    keys_p256dh: subscriptionJson.keys?.p256dh!,
+    keys_auth: subscriptionJson.keys?.auth!,
   };
 
   console.log("📡 Push Subscription (converted):", JSON.stringify(body));
 
   // 서버에 POST 요청
-  await fetch("https://backend.apot.pro/api/v1/subscriptions/", {
-    method: "POST",
-    body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include", // auto transfer session cookie
-  });
+  await postSubs(body);
 }
 
 export default function NotificationButton() {
