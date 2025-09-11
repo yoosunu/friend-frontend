@@ -66,6 +66,7 @@ export async function subscribeToPush() {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include", // auto transfer session cookie
   });
 }
 
