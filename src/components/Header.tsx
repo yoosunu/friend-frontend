@@ -104,12 +104,16 @@ export default function HomeHeader() {
         </Box>
       </Link>
       <HStack spacing={2}>
-        <IconButton
-          // onClick={}
-          variant="ghost"
-          aria-label="Toggle dark mode"
-          icon={<NotificationButton />}
-        ></IconButton>
+        {!userLoading ? (
+          !isLoggedIn ? null : (
+            <IconButton
+              // onClick={}
+              variant="ghost"
+              aria-label="Toggle dark mode"
+              icon={<NotificationButton />}
+            ></IconButton>
+          )
+        ) : null}
         <IconButton
           onClick={toggleColorMode}
           variant="ghost"
