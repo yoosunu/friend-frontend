@@ -25,7 +25,7 @@ export default function SocialLogin() {
       <VStack>
         <Button
           as={"a"}
-          href="https://github.com/login/oauth/authorize?client_id=Ov23liEyST7si3OeL9D7&scope=read:user,user:email"
+          href="https://github.com/login/oauth/authorize?client_id=Ov23liEyST7si3OeL9D7&scope=read:user,user:email&redirect_uri=https://apot.pro/social/github"
           width={"100%"}
           leftIcon={<FaGithub />}
         >

@@ -39,6 +39,8 @@ export default function GithubConfirm() {
   useEffect(() => {
     if (code) {
       mutation.mutate({ code });
+    } else {
+      navigate("/");
     }
   }, []);
   return (
