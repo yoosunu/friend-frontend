@@ -15,7 +15,7 @@ const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
       ? "http://127.0.0.1:8000/api/v1/"
-      : "https://backend.apot.pro/api/v1/",
+      : "https://backend.apotb.shop/api/v1/",
   withCredentials: true,
 });
 
@@ -615,7 +615,7 @@ export interface ISubVars {
 
 export const postSubs = ({ endpoint, keys_p256dh, keys_auth }: ISubVars) =>
   instance.post(
-    `https://backend.apot.pro/api/v1/subscriptions/`,
+    `https://backend.apotb.shop/api/v1/subscriptions/`,
     {
       endpoint,
       keys_p256dh,

@@ -4,7 +4,7 @@ import { FaComment, FaGithub } from "react-icons/fa";
 export default function SocialLogin() {
   const kakaoParams = {
     client_id: "d61bd1307b18eb8a40650bfed90a8131",
-    redirect_uri: "http://backend.apot.pro/social/kakao",
+    redirect_uri: "http://backend.apotb.shop/social/kakao",
     response_type: "code",
   };
   const params = new URLSearchParams(kakaoParams).toString();
@@ -25,7 +25,7 @@ export default function SocialLogin() {
       <VStack>
         <Button
           as={"a"}
-          href="https://github.com/login/oauth/authorize?client_id=Ov23liEyST7si3OeL9D7&scope=read:user,user:email&redirect_uri=https://apot.pro/social/github"
+          href="https://github.com/login/oauth/authorize?client_id=Ov23liEyST7si3OeL9D7&scope=read:user,user:email&redirect_uri=https://apotb.shop/social/github"
           width={"100%"}
           leftIcon={<FaGithub />}
         >
