@@ -12,15 +12,20 @@ export default function Home() {
   });
   return (
     <Grid
+      minWidth="0"
+      width="100%"
+      overflowX="hidden"
       py={20}
       mt={10}
       px={{
         base: 24,
-        lg: 40,
+        md: 8,
+        lg: 10,
       }}
-      columnGap={32}
-      rowGap={40}
+      columnGap={{ base: 4, md: 8, lg: 32 }}
+      rowGap={{ base: 6, md: 10, lg: 40 }}
       templateColumns={{
+        base: "1fr",
         sm: "1fr",
         md: "1fr 1fr",
         lg: "repeat(3, 1fr)",

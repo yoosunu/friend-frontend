@@ -41,40 +41,43 @@ export default function Notifications() {
             {isLoading ? (
               <Spinner />
             ) : (
-              data?.map((noti) => (
-                <Box
-                  py={2}
-                  key={noti.id}
-                  w={"100%"}
-                  border={"1px"}
-                  borderColor={"green.400"}
-                  rounded={"2xl"}
-                  mb={2}
-                  shadow={"2xl"}
-                  onClick={() => {
-                    onOpen();
-                    setActivNoti(noti);
-                  }}
-                >
-                  <HStack px={4}>
-                    <Box textAlign={"center"} w={"10%"}>
-                      <Text>{noti.code}</Text>
-                    </Box>
-                    <Box textAlign={"center"} w={"10%"}>
-                      <Text>{noti.tag}</Text>
-                    </Box>
-                    <Box textAlign={"start"} w={"40%"}>
-                      <Text noOfLines={1}>{noti.title}</Text>
-                    </Box>
-                    <Box textAlign={"center"} w={"15%"}>
-                      <Text noOfLines={1}>{noti.writer}</Text>
-                    </Box>
-                    <Box textAlign={"center"} w={"15%"}>
-                      <Text noOfLines={1}>{noti.etc}</Text>
-                    </Box>
-                  </HStack>
-                </Box>
-              ))
+              data
+                ?.slice()
+                .sort((a, b) => b.code - a.code)
+                .map((noti) => (
+                  <Box
+                    py={2}
+                    key={noti.id}
+                    w={"100%"}
+                    border={"1px"}
+                    borderColor={"green.400"}
+                    rounded={"2xl"}
+                    mb={2}
+                    shadow={"2xl"}
+                    onClick={() => {
+                      onOpen();
+                      setActivNoti(noti);
+                    }}
+                  >
+                    <HStack px={4}>
+                      <Box textAlign={"center"} w={"10%"}>
+                        <Text>{noti.code}</Text>
+                      </Box>
+                      <Box textAlign={"center"} w={"10%"}>
+                        <Text>{noti.tag}</Text>
+                      </Box>
+                      <Box textAlign={"start"} w={"40%"}>
+                        <Text noOfLines={1}>{noti.title}</Text>
+                      </Box>
+                      <Box textAlign={"center"} w={"15%"}>
+                        <Text noOfLines={1}>{noti.writer}</Text>
+                      </Box>
+                      <Box textAlign={"center"} w={"15%"}>
+                        <Text noOfLines={1}>{noti.etc}</Text>
+                      </Box>
+                    </HStack>
+                  </Box>
+                ))
             )}
           </VStack>
           <Modal

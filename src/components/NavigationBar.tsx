@@ -11,6 +11,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Grid,
+  Box,
 } from "@chakra-ui/react";
 import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -26,8 +27,8 @@ export default function HomeNavigationBar() {
         sm: 3,
         md: 0,
       }}
-      py={"0"}
-      px={40}
+      py={{ base: 0, md: 0 }}
+      px={{ base: 40, md: 40 }}
       borderBottomWidth={1}
       borderBottomColor={"green.300"}
       direction={{
@@ -35,7 +36,12 @@ export default function HomeNavigationBar() {
         md: "row",
       }}
     >
-      <Drawer placement="top" size={"lg"} onClose={onClose} isOpen={isOpen}>
+      <Drawer
+        placement="top"
+        size={{ base: "full", md: "lg" }}
+        onClose={onClose}
+        isOpen={isOpen}
+      >
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">Menu Bar</DrawerHeader>
@@ -65,9 +71,20 @@ export default function HomeNavigationBar() {
       </Drawer>
       {isMobile ? (
         <HStack>
-          <Button onClick={onOpen} colorScheme="green">
-            <Text mr={2}>Menu</Text>
-            <FaBars />
+          <Button
+            onClick={onOpen}
+            colorScheme="green"
+            py={{ base: 1, md: 3 }}
+            px={{ base: 3, md: 5 }}
+            fontSize={{ base: "12px", md: "16px" }}
+            size="sm"
+            minW="auto"
+            minH="auto"
+          >
+            <Text mr={{ base: 1, md: 2 }}>Menu</Text>
+            <Box w={{ base: 3, md: 20 }} h={{ base: 4, md: 20 }}>
+              <FaBars size={"100%"} />
+            </Box>
           </Button>
         </HStack>
       ) : (

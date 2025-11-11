@@ -84,8 +84,8 @@ export default function HomeHeader() {
         sm: 3,
         md: 0,
       }}
-      py={"5"}
-      px={40}
+      py={{ base: 5, md: "5" }}
+      px={{ base: 5, md: 40 }}
       borderBottomWidth={1}
       borderBottomColor={"green.300"}
       direction={{
@@ -94,16 +94,18 @@ export default function HomeHeader() {
       }}
     >
       <Link to={"/"}>
-        <Box color={logoColor}>
-          <HStack alignItems={"center"}>
-            <GiPear size={"48px"} />
-            <Text as={"b"} fontSize={"28px"} fontStyle={"oblique"}>
-              Apot
-            </Text>
-          </HStack>
-        </Box>
+        <HStack alignItems={"center"} color={logoColor}>
+          <GiPear size={"48px"} />
+          <Text
+            as={"b"}
+            fontSize={{ base: 24, md: "28px" }}
+            fontStyle={"oblique"}
+          >
+            Apot
+          </Text>
+        </HStack>
       </Link>
-      <HStack spacing={2}>
+      <HStack spacing={2} paddingBottom={0}>
         {!userLoading ? (
           !isLoggedIn ? null : (
             <IconButton
@@ -115,6 +117,9 @@ export default function HomeHeader() {
           )
         ) : null}
         <IconButton
+          padding={4}
+          fontSize={16}
+          size={"100%"}
           onClick={toggleColorMode}
           variant="ghost"
           aria-label="Toggle dark mode"
@@ -123,11 +128,22 @@ export default function HomeHeader() {
         {!userLoading ? (
           !isLoggedIn ? (
             <>
-              <Button bgColor={"gray.300"} onClick={OnLoginOpen}>
-                Log in
+              <Button
+                w={{ base: 15, md: 24 }}
+                h={{ base: 7, md: 10 }}
+                bgColor={"gray.300"}
+                onClick={OnLoginOpen}
+              >
+                <Text fontSize={{ base: 8, md: 16 }}>Log in</Text>
               </Button>
-              <Button onClick={onSignUpOpen} colorScheme="green">
-                Sign Up
+
+              <Button
+                w={{ base: 15, md: 24 }}
+                h={{ base: 7, md: 10 }}
+                onClick={onSignUpOpen}
+                colorScheme="green"
+              >
+                <Text fontSize={{ base: 8, md: 16 }}>Sign Up</Text>
               </Button>
             </>
           ) : (
