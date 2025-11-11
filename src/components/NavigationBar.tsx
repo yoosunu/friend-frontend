@@ -43,10 +43,14 @@ export default function HomeNavigationBar() {
         isOpen={isOpen}
       >
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent height="50vh" maxH="50vh" borderBottomRadius="2xl">
           <DrawerHeader borderBottomWidth="1px">Menu Bar</DrawerHeader>
           <DrawerBody>
-            <Grid templateColumns={"repeat(3, 1fr)"} rowGap={4}>
+            <Grid
+              templateColumns={"repeat(3, 1fr)"}
+              rowGap={4}
+              overflowY="auto"
+            >
               <Link to={"/"}>
                 <Button shadow={"2xl"}>Home</Button>
               </Link>
