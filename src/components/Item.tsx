@@ -100,15 +100,15 @@ export default function Item({
           mb={4}
           rounded={"3xl"}
           overflow={"hidden"}
-          maxH={"300"}
-          maxW={"300"}
+          maxH={{ base: 150, md: "300" }}
+          maxW={{ base: 150, md: "300" }}
         >
           <Img
             src={imageUrl}
             rounded={"3xl"}
             overflow={"hidden"}
-            minH={"300"}
-            minW={"300"}
+            minH={{ base: 150, md: "300" }}
+            minW={{ base: 150, md: "300" }}
           />
           <IconButton
             aria-label="Like"
@@ -128,9 +128,9 @@ export default function Item({
             variant="ghost"
           />
         </Box>
-        <Box maxH={"300"} maxW={"300"}>
+        <Box maxH={{ base: 150, md: "300" }} maxW={{ base: 150, md: "300" }}>
           <Grid mb={3} templateColumns={"10fr 1fr"}>
-            <Text as={"b"} noOfLines={1} fontSize={"md"}>
+            <Text as={"b"} noOfLines={1} fontSize={{ base: "sm", md: "md" }}>
               {title}
             </Text>
             <HStack
