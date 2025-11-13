@@ -158,7 +158,14 @@ export default function Item({
         </Box>
         {/* title, description, star box end */}
         {/* description section start */}
-        <Grid mb={3} templateColumns={{ base: "1.1fr 1fr", md: "5fr 1fr" }}>
+        <Grid
+          mb={3}
+          templateColumns={{
+            base: "1fr 1fr",
+            md: "5fr 1fr",
+            lg: "3.2fr 1fr",
+          }}
+        >
           <Text
             paddingTop={{ base: 2.5, md: 2.5 }}
             as={"b"}
