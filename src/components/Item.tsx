@@ -93,6 +93,7 @@ export default function Item({
   return (
     <Link to={`/items/${id}`}>
       <VStack spacing={1} display={"flex"} alignItems={"center"}>
+        {/* photo, heart, wrapbox start */}
         <Box
           shadow={"2xl"}
           cursor={"pointer"}
@@ -120,14 +121,16 @@ export default function Item({
               )
             }
             position={"absolute"}
-            top={5}
-            right={5}
+            top={{ base: 1, md: 5 }}
+            right={{ base: 1, md: 5 }}
             onClick={onHeartClick}
             _hover={{ bg: "transparent" }}
             _active={{ bg: "transparent" }}
             variant="ghost"
           />
         </Box>
+        {/* photo, heart, wrapbox end */}
+        {/* title, description, star box start */}
         <Box maxH={{ base: 150, md: "300" }} maxW={{ base: 150, md: "300" }}>
           <Grid mb={3} templateColumns={"10fr 1fr"}>
             <Text as={"b"} noOfLines={1} fontSize={{ base: "sm", md: "md" }}>
@@ -149,8 +152,10 @@ export default function Item({
             </Text>
           </Box>
         </Box>
-        <Grid mb={3} templateColumns={"2.6fr 1fr"}>
-          <Text as={"b"} fontSize={"s"} color={gray}>
+        {/* title, description, star box end */}
+        {/* description section start */}
+        <Grid mb={3} templateColumns={{ base: "1fr 1fr", md: "2.6fr 1fr" }}>
+          <Text as={"b"} fontSize={{ base: "sm", md: "md" }} color={gray}>
             {language}
           </Text>
           <Box>
@@ -164,6 +169,7 @@ export default function Item({
             </HStack>
           </Box>
         </Grid>
+        {/* description section end */}
       </VStack>
     </Link>
   );

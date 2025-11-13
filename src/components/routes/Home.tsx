@@ -39,11 +39,6 @@ export default function Home() {
           <ItemSkeleton />
           <ItemSkeleton />
           <ItemSkeleton />
-          <ItemSkeleton />
-          <ItemSkeleton />
-          <ItemSkeleton />
-          <ItemSkeleton />
-          <ItemSkeleton />
         </>
       ) : null}
       {data?.map((item) => (
