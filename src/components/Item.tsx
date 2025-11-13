@@ -132,8 +132,8 @@ export default function Item({
         {/* photo, heart, wrapbox end */}
         {/* title, description, star box start */}
         <Box maxH={{ base: 150, md: "300" }} maxW={{ base: 150, md: "300" }}>
-          <Grid mb={3} templateColumns={"10fr 1fr"}>
-            <Text as={"b"} noOfLines={1} fontSize={{ base: "sm", md: "md" }}>
+          <Grid mb={3} templateColumns={{ base: "10fr 1fr", md: "10fr 1fr" }}>
+            <Text as={"b"} noOfLines={1} fontSize={{ base: "lg", md: "md" }}>
               {title}
             </Text>
             <HStack
@@ -147,15 +147,24 @@ export default function Item({
             </HStack>
           </Grid>
           <Box mb={1}>
-            <Text fontSize={"s"} noOfLines={1} color={gray}>
+            <Text
+              fontSize={{ base: "sm", md: "sm" }}
+              noOfLines={1}
+              color={gray}
+            >
               {description}
             </Text>
           </Box>
         </Box>
         {/* title, description, star box end */}
         {/* description section start */}
-        <Grid mb={3} templateColumns={{ base: "1fr 1fr", md: "2.6fr 1fr" }}>
-          <Text as={"b"} fontSize={{ base: "sm", md: "md" }} color={gray}>
+        <Grid mb={3} templateColumns={{ base: "1.1fr 1fr", md: "5fr 1fr" }}>
+          <Text
+            paddingTop={{ base: 2.5, md: 2.5 }}
+            as={"b"}
+            fontSize={{ base: "md", md: "md" }}
+            color={gray}
+          >
             {language}
           </Text>
           <Box>
