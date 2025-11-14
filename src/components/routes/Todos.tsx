@@ -104,12 +104,14 @@ export default function Todos() {
   };
   return (
     <VStack alignItems={"center"} py={20}>
+      {/* add todo button start */}
       <Button onClick={onTodoPostOpen} colorScheme="green" mb={20}>
         Add Todo
         <Box ml={2}>
           <FaPlus />
         </Box>
       </Button>
+      {/* add todo button end */}
       {isLoading ? (
         <Spinner size={"xl"} />
       ) : (
@@ -120,6 +122,7 @@ export default function Todos() {
               borderColor={"green.400"}
               rounded={"2xl"}
               mb={10}
+              maxW={{ base: 300 }}
             >
               <Menu>
                 <VStack onClick={() => setTd(todo)}>
