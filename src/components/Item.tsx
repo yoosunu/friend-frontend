@@ -159,9 +159,11 @@ export default function Item({
         {/* title, description, star box end */}
         {/* description section start */}
         <Grid
+          maxW={{ base: 150, md: "300" }}
           mb={3}
+          justifyContent={"space-between"}
           templateColumns={{
-            base: "1fr 1fr",
+            base: "5fr 1fr",
             md: "5fr 1fr",
             lg: "3.2fr 1fr",
           }}
@@ -177,10 +179,14 @@ export default function Item({
           <Box>
             <HStack>
               <Button onClick={onPencilClick} size={"sm"}>
-                <Box>{is_owner === true ? <FaPencilAlt /> : null}</Box>
+                <Box>
+                  {is_owner === true ? <FaPencilAlt /> : <FaPencilAlt />}
+                </Box>
               </Button>
               <Button onClick={onCameraClick} size={"sm"}>
-                <Box>{is_owner === true ? <FaCameraRetro /> : null}</Box>
+                <Box>
+                  {is_owner === true ? <FaCameraRetro /> : <FaCameraRetro />}
+                </Box>
               </Button>
             </HStack>
           </Box>
