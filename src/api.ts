@@ -1,6 +1,7 @@
 import Cookie from "js-cookie";
 import { QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios";
+import { API_BASE_URL } from "./config";
 import {
   IChatRoomsDelete,
   IEveryday,
@@ -15,7 +16,7 @@ const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
       ? "http://127.0.0.1:8000/api/v1/"
-      : "https://backend.apotb.shop/api/v1/",
+      : API_BASE_URL,
   withCredentials: true,
 });
 
@@ -615,7 +616,7 @@ export interface ISubVars {
 
 export const postSubs = ({ endpoint, keys_p256dh, keys_auth }: ISubVars) =>
   instance.post(
-    `https://backend.apotb.shop/api/v1/subscriptions/`,
+    `${API_BASE_URL}subscriptions/`,
     {
       endpoint,
       keys_p256dh,
